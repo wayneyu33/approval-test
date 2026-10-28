@@ -1,0 +1,30 @@
+name: Deploy Changes
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # This job runs automatically to show what changes will happen
+  plan_changes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate or Plan Changes
+        run: echo "Generating change logs or terraform plan here..."
+
+  # This job will PAUSE and ask for approval before running
+  apply_changes:
+    runs-on: ubuntu-latest
+    needs: plan_changes # Ensures the plan finishes first
+    environment: production # <--- Matches the environment name in GitHub settings
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Apply Changes
+        run: echo "Applying the changes to production safely!"
